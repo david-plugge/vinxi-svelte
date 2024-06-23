@@ -1,7 +1,7 @@
 import { AppOptions, RouterSchemaInput, createApp, resolve } from 'vinxi';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { serverFunctions } from '@vinxi/server-functions/plugin';
-import { FileSystemRouter } from './src/router';
+import { FileSystemRouter } from './src/app/router';
 import { FileSystemRouterConfig } from 'vinxi/fs-router';
 
 function createRouterFactory(config: FileSystemRouterConfig) {
@@ -17,11 +17,6 @@ function createRouterFactory(config: FileSystemRouterConfig) {
 }
 
 export default createApp({
-	server: {
-		alias: {
-			$lib: 'src/lib'
-		}
-	},
 	routers: [
 		{
 			name: 'public',
@@ -31,7 +26,7 @@ export default createApp({
 		{
 			name: 'ssr',
 			type: 'http',
-			handler: './src/server-entry.ts',
+			handler: './src/app/server.ts',
 			target: 'server',
 			routes: createRouterFactory({
 				dir: 'src/routes',
@@ -42,7 +37,7 @@ export default createApp({
 		{
 			name: 'client',
 			type: 'client',
-			handler: './src/client-entry.ts',
+			handler: './src/app/client.svelte.ts',
 			target: 'browser',
 			base: '/_build',
 			routes: createRouterFactory({

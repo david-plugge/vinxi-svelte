@@ -33,15 +33,23 @@
 </script>
 
 <script lang="ts">
-	import type { Component } from 'svelte';
+	import { setContext, type Component } from 'svelte';
+	import type { Page } from './lib/page';
 
 	let {
 		components,
-		assets
+		assets,
+
+		page
 	}: {
 		components: Component[];
 		assets: any[];
+		page: Page;
 	} = $props();
+
+	const pageContext = $state.frozen(page);
+
+	setContext('PAGE_CONTEXT', () => pageContext);
 </script>
 
 <svelte:head>
